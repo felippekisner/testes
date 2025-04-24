@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f6f6f6;
+}
+
+header {
+    background-color: #129b2d;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+p {
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* Fonte limpa e legível */
+    font-size: 1rem;        /* Tamanho de fonte padrão */
+    line-height: 1.6;       /* Espaçamento entre linhas */
+    color: #333333;         /* Cor de texto escura para boa leitura */
+    margin: 1.5rem 0;       /* Espaço acima e abaixo de cada parágrafo */
+    padding: 0.5rem 1rem;   /* Espaço interno: 0.5rem em cima/embaixo, 1rem lateral */
+    background-color: #f9f9f9; /* Fundo suave para destacar o bloco de texto */
+    border-left: 4px solid #4CAF50; /* Barra lateral verde para identidade visual */
+    border-radius: 0.25rem; /* Cantos levemente arredondados */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil */
+  }
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+nav button, nav a {
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1 1 45%; /* Responsividade */
+}
+
+nav button:hover {
+    background-color: #07357b;
+}
+
+.content {
+    padding: 10px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #129b2d;
+    color: white;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #dde7dd;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+    border-color: #073a4e;
+}
+th{
+  background-color: #129b2d;
+}
+input, select, textarea, button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
