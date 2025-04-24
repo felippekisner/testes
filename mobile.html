@@ -68,26 +68,29 @@
 </head>
 <body>
   <header>Organizador FTK 📱</header>
-
-  <nav>
-    <button onclick="alert('Página de Tarefas')">Tarefas</button>
-    <button onclick="alert('Página de Horários')">Horários</button>
-    <button onclick="alert('Professores')">Professores</button>
-    <button onclick="alert('Notícias')">Notícias</button>
-  </nav>
-
-  <section>
+  <section id="conteudo">
     <h2>Bem-vindo!</h2>
     <div class="card">
       Aqui você encontra suas tarefas, horários, professores e avisos diretamente pelo celular.
       Essa é uma versão simplificada e rápida para facilitar sua organização.
     </div>
   </section>
+  
+
+  <nav>
+    <button onclick="carregarTarefas()">Tarefas</button>
+    <button onclick="carregarHorarios()">Horários</button>
+    <button onclick="carregarProfessores()">Professores</button>
+    <button onclick="carregarNoticias()">Notícias</button>
+  </nav>
+  
+
+  
 
   <footer>
     Criado por Felippe Tesser Kisner | IFC Blumenau
   </footer>
-  <script type="module" src="main.js"></script>
+  <script type="module" src="mobile.js"></script>
 
 </body>
 </html>
