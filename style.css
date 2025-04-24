@@ -125,10 +125,8 @@ th, td {
 /* RESPONSIVIDADE PARA TELAS ATÉ 600px */
 /* Responsividade para dispositivos móveis */
 @media (max-width: 600px) {
-  /* Ajusta o layout para dispositivos móveis */
   body {
       flex-direction: column; /* Coloca elementos em coluna */
-      display: block; /* Remove alinhamento flex */
   }
 
   .sidebar {
@@ -136,18 +134,26 @@ th, td {
       width: 100%;
       height: auto;
       display: flex;
+      flex-wrap: wrap; /* Permite quebra de linha para elementos */
       justify-content: space-around;
-      padding: 0.5rem 0;
+      padding: 10px;
+  }
+
+  .sidebar h1 {
+      font-size: 1.2rem; /* Reduz tamanho do texto no celular */
+  }
+
+  .sidebar .icon {
+      font-size: 1.2rem; /* Ajusta tamanho dos ícones */
   }
 
   .content {
-      margin-left: 0; /* Remove o espaço reservado para a sidebar */
-      padding: 1rem; /* Ajusta o padding para dispositivos menores */
+      margin-left: 0; /* Remove margem para dispositivos móveis */
+      padding: 1rem; /* Garante espaçamento interno adequado */
   }
 
-  /* Ajuste de elementos */
   h2 {
-      font-size: 1.5rem; /* Reduz tamanho do texto em dispositivos menores */
+      font-size: 1.5rem; 
       text-align: center;
   }
 
@@ -160,10 +166,9 @@ th, td {
   table {
       font-size: 0.8rem;
       overflow-x: auto;
-      display: block; /* Garante que a tabela caiba em telas menores */
+      display: block;
   }
 }
-
   body {
     margin: 0;
     font-family: Arial, sans-serif;
