@@ -25,6 +25,14 @@ toggleButton.addEventListener("mouseenter", () => {
   toggleButton.textContent = "Organizador";
 });
 
+const toggleSidebar = () => {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  };
+  
+  document.getElementById('menu-toggle').addEventListener('click', toggleSidebar);
+  
+
 // Quando o mouse sair da sidebar, fecha e volta o texto
 sidebar.addEventListener("mouseleave", () => {
   sidebar.classList.remove("open");
@@ -140,6 +148,8 @@ window.excluirTarefa = async function(id) {
     carregarTarefas();
 };
 
+
+
 // --- NOTÍCIAS ---
 function carregarNoticias() {
     document.getElementById("noticias").innerHTML = `
@@ -154,6 +164,8 @@ function carregarNoticias() {
             </select>
             <label>Notícia:</label>
             <textarea id="descricaoNoticia" rows="4"></textarea>
+             <label for="arquivo">Arquivo:</label>
+    <input type="file" id="arquivo" name="arquivo" required />
             <button type="submit">Adicionar</button>
         </form>
         <table>

@@ -8,6 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+    <script>
+        if (window.innerWidth <= 768) {
+          window.location.href = "mobile.html";
+        }
+      </script>
+      
         <div class="sidebar" id="sidebar">
             <div class="top">
               <button id="menu-toggle">☰</button>
@@ -32,6 +38,10 @@
               <span class="icon">📰</span>
               <span class="text">Notícias</span>
             </button>
+            <button class="tab-btn"onclick="trocarAba('conteudo')">
+                <span class="icon">🏠</span>
+                <span class="text">Conteúdos</span>
+              </button>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdEBMilPMnIajdF9MeV7QLqe9UyW6QWDxK2zauj0beSQUhdBA/viewform?usp=sharing" target="_blank"><button class="tab-btn">
                 <span class="icon">🙋</span>
                 <span class="text">Sugestões</span>
@@ -68,6 +78,21 @@
                 Felippe Tesser Kisner <br>
                 Criador do Organizador FTK</p>
             
+        </div>
+        <div id="conteudo" class="tab-content">
+            <h2>Conteúdos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Matéria</th>
+                <th>Arquivo</th>
+                <th>Ação</th>
+            </tr>
+            
+        </thead>
+        <tbody id="listaConteudos"></tbody>
+    </table>
+
         </div>
         <div id="tarefas" class="tab-content">
             <h2>Cadastrar Tarefa</h2>
@@ -211,6 +236,9 @@
 
                 <label>Notícia:</label>
                 <textarea id="conteudoNoticia" rows="4" required></textarea>
+
+                 <label for="arquivo">Arquivo:</label>
+                <input type="file" id="arquivo" name="arquivo" required />
 
                 <button type="submit">Adicionar</button>
             </form>

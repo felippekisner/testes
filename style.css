@@ -124,51 +124,67 @@ th, td {
 }
 /* RESPONSIVIDADE PARA TELAS ATÉ 600px */
 /* Responsividade para dispositivos móveis */
-@media (max-width: 600px) {
+/* Responsivo para telas até 768px */
+@media (max-width: 768px) {
   body {
-      flex-direction: column; /* Coloca elementos em coluna */
+    flex-direction: column;
   }
 
   .sidebar {
-      position: static;
-      width: 100%;
-      height: auto;
-      display: flex;
-      flex-wrap: wrap; /* Permite quebra de linha para elementos */
-      justify-content: space-around;
-      padding: 10px;
+    width: 100%;
+    height: auto;
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
   }
 
-  .sidebar h1 {
-      font-size: 1.2rem; /* Reduz tamanho do texto no celular */
-  }
-
-  .sidebar .icon {
-      font-size: 1.2rem; /* Ajusta tamanho dos ícones */
+  .sidebar button {
+    margin: 0.25rem;
+    flex: 1 1 45%;
   }
 
   .content {
-      margin-left: 0; /* Remove margem para dispositivos móveis */
-      padding: 1rem; /* Garante espaçamento interno adequado */
+    margin-left: 0;
+    padding: 0.5rem;
   }
 
-  h2 {
-      font-size: 1.5rem; 
-      text-align: center;
-  }
-
-  p {
-      font-size: 1rem;
-      line-height: 1.5;
-      padding: 0.5rem;
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
   }
 
   table {
-      font-size: 0.8rem;
-      overflow-x: auto;
-      display: block;
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 0.3rem;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="time"],
+  select {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  form {
+    padding: 0.5rem;
+  }
+
+  .noticia, .tarefa {
+    font-size: 0.9rem;
+  }
+
+  .noticia button, .tarefa button {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
   }
 }
+
   body {
     margin: 0;
     font-family: Arial, sans-serif;
