@@ -122,59 +122,75 @@ th, td {
     padding: 8px;
     text-align: left;
 }
-@media (max-width: 768px) {
-  body {
-    flex-direction: column;
+/* RESPONSIVIDADE PARA TELAS ATÉ 600px */
+@media (max-width: 600px) {
+  /* Container principal */
+  .container {
+    padding: 1rem;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
+  /* Navbar lateral transforma em topo */
   .sidebar {
-    position: relative;
+    position: static;
     width: 100%;
     height: auto;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     justify-content: space-around;
-    padding: 10px 0;
-    box-shadow: none;
+    padding: 0.5rem 0;
   }
-
-  .sidebar .top {
-    display: none; /* esconder o botão ☰ se não for necessário no topo no mobile */
-  }
-
-  .tab-btn {
-    flex: 1 1 45%;
-    justify-content: center;
-    font-size: 14px;
-    padding: 10px;
+  .sidebar .menu-item {
+    flex: 1;
     text-align: center;
   }
 
-  .tab-btn .icon {
-    margin-right: 5px;
+  /* Formulário de cadastro */
+  .cadastro-tarefas {
+    width: 100%;
+  }
+  .cadastro-tarefas label,
+  .cadastro-tarefas select,
+  .cadastro-tarefas textarea,
+  .cadastro-tarefas button {
+    width: 100%;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
   }
 
-  .content {
-    margin-left: 0;
-    padding: 10px;
+  /* Tabela de tarefas */
+  .tabela-tarefas {
+    width: 100%;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    display: block;
   }
-
-  table {
-    font-size: 12px;
+  .tabela-tarefas thead {
+    display: none; /* esconde cabeçalho, vamos exibir labels nos cells */
   }
-
-  h2 {
-    font-size: 1.4rem;
-    text-align: center;
+  .tabela-tarefas tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #444;
   }
+  .tabela-tarefas tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+  }
+  /* insere label antes de cada dado */
+  .tabela-tarefas tbody td:nth-child(1)::before { content: "Data:"; }
+  .tabela-tarefas tbody td:nth-child(2)::before { content: "Matéria:"; }
+  .tabela-tarefas tbody td:nth-child(3)::before { content: "Tipo:"; }
+  .tabela-tarefas tbody td:nth-child(4)::before { content: "Tarefa:"; }
 
-  p {
-    padding: 0.8rem;
-    font-size: 0.95rem;
+  /* Ajuste de fontes e cores para legibilidade */
+  body {
+    font-size: 16px;
+    line-height: 1.4;
   }
 }
-
 
   body {
     margin: 0;
