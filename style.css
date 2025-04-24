@@ -123,72 +123,44 @@ th, td {
     text-align: left;
 }
 /* RESPONSIVIDADE PARA TELAS ATÉ 600px */
+/* Responsividade para dispositivos móveis */
 @media (max-width: 600px) {
-  /* Container principal */
-  .container {
-    padding: 1rem;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Navbar lateral transforma em topo */
-  .sidebar {
-    position: static;
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.5rem 0;
-  }
-  .sidebar .menu-item {
-    flex: 1;
-    text-align: center;
-  }
-
-  /* Formulário de cadastro */
-  .cadastro-tarefas {
-    width: 100%;
-  }
-  .cadastro-tarefas label,
-  .cadastro-tarefas select,
-  .cadastro-tarefas textarea,
-  .cadastro-tarefas button {
-    width: 100%;
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  /* Tabela de tarefas */
-  .tabela-tarefas {
-    width: 100%;
-    font-size: 0.9rem;
-    overflow-x: auto;
-    display: block;
-  }
-  .tabela-tarefas thead {
-    display: none; /* esconde cabeçalho, vamos exibir labels nos cells */
-  }
-  .tabela-tarefas tbody tr {
-    display: block;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #444;
-  }
-  .tabela-tarefas tbody td {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-  }
-  /* insere label antes de cada dado */
-  .tabela-tarefas tbody td:nth-child(1)::before { content: "Data:"; }
-  .tabela-tarefas tbody td:nth-child(2)::before { content: "Matéria:"; }
-  .tabela-tarefas tbody td:nth-child(3)::before { content: "Tipo:"; }
-  .tabela-tarefas tbody td:nth-child(4)::before { content: "Tarefa:"; }
-
-  /* Ajuste de fontes e cores para legibilidade */
+  /* Ajusta o layout para dispositivos móveis */
   body {
-    font-size: 16px;
-    line-height: 1.4;
+      flex-direction: column; /* Coloca elementos em coluna */
+      display: block; /* Remove alinhamento flex */
+  }
+
+  .sidebar {
+      position: static;
+      width: 100%;
+      height: auto;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+  }
+
+  .content {
+      margin-left: 0; /* Remove o espaço reservado para a sidebar */
+      padding: 1rem; /* Ajusta o padding para dispositivos menores */
+  }
+
+  /* Ajuste de elementos */
+  h2 {
+      font-size: 1.5rem; /* Reduz tamanho do texto em dispositivos menores */
+      text-align: center;
+  }
+
+  p {
+      font-size: 1rem;
+      line-height: 1.5;
+      padding: 0.5rem;
+  }
+
+  table {
+      font-size: 0.8rem;
+      overflow-x: auto;
+      display: block; /* Garante que a tabela caiba em telas menores */
   }
 }
 
