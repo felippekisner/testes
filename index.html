@@ -6,6 +6,10 @@
     <link rel="shortcut icon" href="https://static.planejativo.com/wp-content/uploads/2023/05/capas-e-imagens3-1024x576.png">
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="Organizador FTK.png">
+<meta name="theme-color" content="#129b2d">
+
 </head>
 <body>
     <script>
@@ -38,10 +42,7 @@
               <span class="icon">📰</span>
               <span class="text">Notícias</span>
             </button>
-            <button class="tab-btn"onclick="trocarAba('conteudo')">
-                <span class="icon">🏠</span>
-                <span class="text">Conteúdos</span>
-              </button>
+            
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdEBMilPMnIajdF9MeV7QLqe9UyW6QWDxK2zauj0beSQUhdBA/viewform?usp=sharing" target="_blank"><button class="tab-btn">
                 <span class="icon">🙋</span>
                 <span class="text">Sugestões</span>
@@ -78,21 +79,6 @@
                 Felippe Tesser Kisner <br>
                 Criador do Organizador FTK</p>
             
-        </div>
-        <div id="conteudo" class="tab-content">
-            <h2>Conteúdos</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Matéria</th>
-                <th>Arquivo</th>
-                <th>Ação</th>
-            </tr>
-            
-        </thead>
-        <tbody id="listaConteudos"></tbody>
-    </table>
-
         </div>
         <div id="tarefas" class="tab-content">
             <h2>Cadastrar Tarefa</h2>
@@ -237,8 +223,7 @@
                 <label>Notícia:</label>
                 <textarea id="conteudoNoticia" rows="4" required></textarea>
 
-                 <label for="arquivo">Arquivo:</label>
-                <input type="file" id="arquivo" name="arquivo" required />
+                 
 
                 <button type="submit">Adicionar</button>
             </form>
@@ -260,6 +245,18 @@
     </div>
 
     <script type="module" src="main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              console.log('Service Worker registrado com sucesso:', registration.scope);
+            })
+            .catch(function(error) {
+              console.log('Falha ao registrar Service Worker:', error);
+            });
+        }
+      </script>
+      
 
 </body>
 </html>

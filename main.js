@@ -164,8 +164,7 @@ function carregarNoticias() {
             </select>
             <label>Notícia:</label>
             <textarea id="descricaoNoticia" rows="4"></textarea>
-             <label for="arquivo">Arquivo:</label>
-    <input type="file" id="arquivo" name="arquivo" required />
+             
             <button type="submit">Adicionar</button>
         </form>
         <table>
