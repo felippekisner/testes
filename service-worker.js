@@ -1,13 +1,13 @@
 const cacheName = 'organizador-ftk-v1';
 const filesToCache = [
-  '/',
-  '/index.html',
-  '/mobile.html',
-  '/style.css',
-  '/style-mobile.css',
-  '/main.js',
-  '/mobile.js',
-  '/Organizador FTK.png'
+    '/testes/',
+    '/testes/index.html',
+    '/testes/mobile.html',
+    '/testes/style.css',
+    '/testes/style-mobile.css',
+    '/testes/main.js',
+    '/testes/mobile.js',
+    '/testes/Organizador FTK.png'
 ];
 
 // Instala o service worker

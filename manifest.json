@@ -1,14 +1,14 @@
 {
     "name": "Organizador FTK",
     "short_name": "FTK",
-    "start_url": "/index.html",
+    "start_url": "/testes/index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#129b2d",
     "orientation": "portrait",
     "icons": [
       {
-        "src": "Organizador FTK.png",
+        "src": "/testes/Organizador FTK.png",
         "sizes": "512x512",
         "type": "image/png"
       }
