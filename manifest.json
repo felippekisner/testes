@@ -6,11 +6,17 @@
     "background_color": "#ffffff",
     "theme_color": "#129b2d",
     "orientation": "portrait",
+    "description": "Um app para organizar tarefas e horários escolares de forma prática.",
+    "id": "/testes/index.html",
+    "launch_handler": {
+      "client_mode": "navigate-existing"
+    },
     "icons": [
       {
         "src": "/testes/Organizador FTK.png",
         "sizes": "512x512",
-        "type": "image/png"
+        "type": "image/png",
+        "purpose": "any"
       }
     ]
   }
