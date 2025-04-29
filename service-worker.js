@@ -11,10 +11,10 @@ const filesToCache = [
 ];
 
 self.addEventListener('install', (e) => {
-  console.log('[F&R Services SW] Instalando...');
+  console.log('[FR Services SW] Instalando...');
   e.waitUntil(
     caches.open(cacheName).then((cache) => {
-      console.log('[F&R Services SW] Cache adicionando arquivos...');
+      console.log('[FR Services SW] Cache adicionando arquivos...');
       return cache.addAll(filesToCache);
     })
   );
@@ -42,10 +42,10 @@ self.addEventListener('fetch', (e) => {
   e.respondWith(
     caches.match(e.request).then((response) => {
       if (response) {
-        console.log('[F&R Services SW] Servindo do cache:', e.request.url);
+        console.log('[FR Services SW] Servindo do cache:', e.request.url);
         return response;
       }
-      console.log('[F&R Services SW] Buscando da rede:', e.request.url);
+      console.log('[FR Services SW] Buscando da rede:', e.request.url);
       return fetch(e.request).catch(() => {
         return caches.match('Sem internet');
       });
