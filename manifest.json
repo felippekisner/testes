@@ -13,12 +13,7 @@
     "client_mode": "navigate-existing"
   },
   "icons": [
-    {
-      "src": "/testes/LogoAPP.jpg",
-      "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
+   
     {
       "src": "/testes/LogoAPP.jpg",
       "sizes": "512x512",
