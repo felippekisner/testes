@@ -56,6 +56,26 @@ async function carregarTarefas() {
     });
 }
 
+async function atualizarTabelaTarefas() {
+    const tbody = document.getElementById("listaTarefas");
+    tbody.innerHTML = "";
+
+    const q = query(collection(db, "tarefas"), orderBy("data"));
+    const snap = await getDocs(q);
+    snap.forEach(docSnap => {
+        const t = docSnap.data();
+        tbody.innerHTML += `
+            <tr>
+                <td>${t.data}</td>
+                <td>${t.materia}</td>
+                <td>${t.tipo}</td>
+                <td>${t.descricao}</td>
+                <td><button onclick="excluirTarefa('${docSnap.id}')">Excluir</button></td>
+            </tr>
+        `;
+    });
+}
+
 // Carregar notícias
 async function carregarNoticias() {
     const tbody = document.getElementById("listaNoticias");
