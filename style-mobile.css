@@ -1,51 +1,58 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: #f6f6f6;
+    color: #333;
 }
 
 header {
     background-color: #129b2d;
     color: white;
-    padding: 10px;
+    padding: 20px;
     text-align: center;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
 p {
-    font-family: 'Helvetica Neue', Arial, sans-serif; /* Fonte limpa e legível */
-    font-size: 1rem;        /* Tamanho de fonte padrão */
-    line-height: 1.6;       /* Espaçamento entre linhas */
-    color: #333333;         /* Cor de texto escura para boa leitura */
-    margin: 1.5rem 0;       /* Espaço acima e abaixo de cada parágrafo */
-    padding: 0.5rem 1rem;   /* Espaço interno: 0.5rem em cima/embaixo, 1rem lateral */
-    background-color: #f9f9f9; /* Fundo suave para destacar o bloco de texto */
-    border-left: 4px solid #4CAF50; /* Barra lateral verde para identidade visual */
-    border-radius: 0.25rem; /* Cantos levemente arredondados */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil */
-  }
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 1rem 0;
+    padding: 0.75rem 1rem;
+    background-color: #f9f9f9;
+    border-left: 4px solid #4CAF50;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
 nav {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 10px;
+    gap: 10px;
+    padding: 10px;
 }
 
 nav button, nav a {
     background-color: #1abc9c;
     color: white;
     border: none;
-    padding: 10px;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-    flex: 1 1 45%; /* Responsividade */
+    padding: 12px;
+    border-radius: 8px;
+    flex: 1 1 45%;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
-nav button:hover {
+nav button:hover, nav a:hover {
     background-color: #07357b;
 }
 
 .content {
-    padding: 10px;
+    padding: 15px;
 }
 
 .tab-content {
@@ -54,41 +61,45 @@ nav button:hover {
 
 .tab-content.active {
     display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    background-color: #dde7dd;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 th, td {
-    padding: 8px;
+    padding: 12px;
     text-align: left;
-    border: 1px solid #ccc;
+    border: 1px solid #073a4e;
 }
 
 th {
     background-color: #129b2d;
     color: white;
 }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background-color: #dde7dd;
-}
 
-table, th, td {
-    border: 1px solid #ccc;
-    border-color: #073a4e;
-}
-th{
-  background-color: #129b2d;
-}
 input, select, textarea, button {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
     box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #1abc9c;
+    outline: none;
 }

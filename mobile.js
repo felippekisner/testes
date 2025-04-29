@@ -14,7 +14,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Função para trocar entre abas
+// Formulários
+const formTarefas = document.getElementById("formTarefas");
+const formNoticias = document.getElementById("formNoticias");
+
+// Submeter nova tarefa
+formTarefas.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nova = {
+        data: document.getElementById("dataTarefa").value,
+        materia: document.getElementById("materiaTarefa").value,
+        tipo: document.getElementById("tipoTarefa").value,
+        descricao: document.getElementById("descricaoTarefa").value
+    };
+    await addDoc(collection(db, "tarefas"), nova);
+    carregarTarefas();
+    formTarefas.reset();
+});
+
+// Submeter nova notícia
+formNoticias.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nova = {
+        data: document.getElementById("dataNoticia").value,
+        materia: document.getElementById("materiaNoticia").value,
+        descricao: document.getElementById("conteudoNoticia").value
+    };
+    await addDoc(collection(db, "noticias"), nova);
+    carregarNoticias();
+    formNoticias.reset();
+});
+
+// Função para trocar abas e carregar conteúdo
 window.trocarAba = function(abaId) {
     document.querySelectorAll('.tab-content').forEach(div => div.classList.remove('active'));
     document.getElementById(abaId).classList.add('active');
@@ -25,39 +56,6 @@ window.trocarAba = function(abaId) {
 
 // Carregar tarefas
 async function carregarTarefas() {
-    const tbody = document.getElementById("listaTarefas");
-    tbody.innerHTML = "";
-
-    const q = query(collection(db, "tarefas"), orderBy("data"));
-    const snap = await getDocs(q);
-    snap.forEach(docSnap => {
-        const t = docSnap.data();
-        tbody.innerHTML += `
-            <tr>
-                <td>${t.data}</td>
-                <td>${t.materia}</td>
-                <td>${t.tipo}</td>
-                <td>${t.descricao}</td>
-                <td><button onclick="excluirTarefa('${docSnap.id}')">Excluir</button></td>
-            </tr>
-        `;
-    });
-
-    document.getElementById("formTarefas").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const nova = {
-            data: document.getElementById("dataTarefa").value,
-            materia: document.getElementById("materiaTarefa").value,
-            tipo: document.getElementById("tipoTarefa").value,
-            descricao: document.getElementById("descricaoTarefa").value
-        };
-        await addDoc(collection(db, "tarefas"), nova);
-        carregarTarefas();
-    });
-    atualizarTabelaTarefas();
-}
-
-async function atualizarTabelaTarefas() {
     const tbody = document.getElementById("listaTarefas");
     tbody.innerHTML = "";
 
@@ -95,17 +93,6 @@ async function carregarNoticias() {
             </tr>
         `;
     });
-
-    document.getElementById("formNoticias").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const nova = {
-            data: document.getElementById("dataNoticia").value,
-            materia: document.getElementById("materiaNoticia").value,
-            descricao: document.getElementById("conteudoNoticia").value
-        };
-        await addDoc(collection(db, "noticias"), nova);
-        carregarNoticias();
-    });
 }
 
 // Excluir tarefa
@@ -120,7 +107,7 @@ window.excluirNoticia = async function(id) {
     carregarNoticias();
 };
 
-// Ao carregar o site, abre direto na aba inicial
+// Inicializa na aba inicial
 window.onload = () => {
     trocarAba("pgIncial");
 };
