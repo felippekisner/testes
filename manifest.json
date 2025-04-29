@@ -15,7 +15,7 @@
   "icons": [
    
     {
-      "src": "/testes/LogoApp.png.png",
+      "src": "/testes/LogoApp.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
