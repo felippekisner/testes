@@ -54,6 +54,7 @@ async function carregarTarefas() {
         await addDoc(collection(db, "tarefas"), nova);
         carregarTarefas();
     });
+    atualizarTabelaTarefas();
 }
 
 async function atualizarTabelaTarefas() {
