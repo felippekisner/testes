@@ -7,7 +7,7 @@ const filesToCache = [
   '/testes/style-mobile.css',
   '/testes/main.js',
   '/testes/mobile.js',
-  '/testes/LogoAPP.png'
+  '/testes/LogoAPP.jpg'
 ];
 
 self.addEventListener('install', (e) => {
