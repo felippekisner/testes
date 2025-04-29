@@ -7,7 +7,7 @@ const filesToCache = [
   '/testes/style-mobile.css',
   '/testes/main.js',
   '/testes/mobile.js',
-  '/testes/F&R Services.png',
+  '/testes/LogoAPP.png',
   '/testes/widget.html'
 ];
 
