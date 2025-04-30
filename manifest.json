@@ -10,7 +10,10 @@
   "lang": "pt-BR",
   "id": "/testes/index.html",
   "launch_handler": {
-    "client_mode": "navigate-existing"
+  "client_mode": "navigate-existing",
+  "app_id": "com.ftk.organizador",
+  "publisher_id": "CN=Desenvolvedor Local",
+  "publisher_display_name": "Organizador FTK"
   },
   "icons": [
    
