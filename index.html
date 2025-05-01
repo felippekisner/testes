@@ -83,8 +83,6 @@
         <div id="tarefas" class="tab-content">
             <h2>Cadastrar Tarefa</h2>
             <form id="formTarefas">
-                <label>Data:</label>
-                <input type="date" id="dataTarefa" required>
 
                 <label>Matéria:</label>
                 <select id="materiaTarefa">
@@ -113,6 +111,12 @@
                     <option>Tarefa</option>
                 </select>
 
+                <label>Data Inicio:</label>
+                <input type="date" id="dataITarefa" required>
+
+                <label>Data Final:</label>
+                <input type="date" id="dataFTarefa" >
+
                 <label>Descrição:</label>
                 <textarea id="descricaoTarefa" rows="4" required></textarea>
 
@@ -123,7 +127,8 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Data</th>
+                        <th>Data Inicio</th>
+                        <th>Data Final</th>
                         <th>Dia</th>
                         <th>Matéria</th>
                         <th>Tipo</th>

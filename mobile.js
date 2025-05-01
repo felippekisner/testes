@@ -22,9 +22,10 @@ const formNoticias = document.getElementById("formNoticias");
 formTarefas.addEventListener("submit", async (e) => {
     e.preventDefault();
     const nova = {
-        data: document.getElementById("dataTarefa").value,
         materia: document.getElementById("materiaTarefa").value,
         tipo: document.getElementById("tipoTarefa").value,
+        data: document.getElementById("dataITarefa").value,
+        dataF: document.getElementById("dataFTarefa").value,
         descricao: document.getElementById("descricaoTarefa").value
     };
     await addDoc(collection(db, "tarefas"), nova);
@@ -61,11 +62,14 @@ async function carregarTarefas() {
 
     const q = query(collection(db, "tarefas"), orderBy("data"));
     const snap = await getDocs(q);
+
     snap.forEach(docSnap => {
         const t = docSnap.data();
+        const dataF = t.dataF ? t.dataF : "Mesmo Dia";  // Se não houver data final, exibe "-"
         tbody.innerHTML += `
             <tr>
                 <td>${t.data}</td>
+                <td>${dataF}</td>
                 <td>${t.materia}</td>
                 <td>${t.tipo}</td>
                 <td>${t.descricao}</td>
@@ -74,6 +78,7 @@ async function carregarTarefas() {
         `;
     });
 }
+
 
 // Carregar notícias
 async function carregarNoticias() {

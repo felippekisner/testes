@@ -80,12 +80,13 @@ window.addEventListener("resize", ajustarSidebar);
 
 // --- TAREFAS ---
 
+
+  
+
 function carregarTarefas() {
     document.getElementById("tarefas").innerHTML = `
     <h2> Cadastrar Tarefas </h2>
         <form id="formTarefa">
-            <label>Data:</label>
-            <input type="date" id="dataTarefa" required>
             <label>Matéria:</label>
             <select id="materiaTarefa">
                 ${gerarOpcoesMateria()}
@@ -96,13 +97,17 @@ function carregarTarefas() {
                 <option>Prova</option>
                 <option>Tarefa</option>
             </select>
-            <label>Tarefa:</label>
+              <label>Data Inicio :</label>
+            <input type="date" id="dataITarefa" required>
+              <label>Data Final:</label>
+            <input type="date" id="dataFTarefa">
+            <label>Descrição:</label>
             <textarea id="descricaoTarefa" rows="4"></textarea>
             <button type="submit">Adicionar</button>
         </form>
         <table>
             <thead>
-                <tr><th>Data</th><th>Matéria</th><th>Tipo</th><th>Tarefa</th><th>Ação</th></tr>
+                <tr><th>Data Inicio</th><th>Data Final</th><th>Matéria</th><th>Tipo</th><th>Tarefa</th><th>Ação</th></tr>
             </thead>
             <tbody id="listaTarefas"></tbody>
         </table>
@@ -110,15 +115,29 @@ function carregarTarefas() {
 
     document.getElementById("formTarefa").addEventListener("submit", async (e) => {
         e.preventDefault();
+    
+        const materia = document.getElementById("materiaTarefa").value;
+        const tipo = document.getElementById("tipoTarefa").value;
+        const data = document.getElementById("dataITarefa").value;
+        let dataF =  document.getElementById("dataFTarefa").value;
+        const descricao = document.getElementById("descricaoTarefa").value;
+    
+        if (!dataF) {
+            dataF = data;
+        }
+    
         const nova = {
-            data: document.getElementById("dataTarefa").value,
-            materia: document.getElementById("materiaTarefa").value,
-            tipo: document.getElementById("tipoTarefa").value,
-            descricao: document.getElementById("descricaoTarefa").value
+            materia: materia,
+            tipo: tipo,
+            data: data,
+            dataF: dataF,
+            descricao: descricao
         };
+    
         await addDoc(collection(db, "tarefas"), nova);
         carregarTarefas();
     });
+    
 
     atualizarTabelaTarefas();
 }
@@ -134,6 +153,7 @@ async function atualizarTabelaTarefas() {
         tbody.innerHTML += `
             <tr>
                 <td>${t.data}</td>
+                <td>${t.dataF}</td>
                 <td>${t.materia}</td>
                 <td>${t.tipo}</td>
                 <td>${t.descricao}</td>

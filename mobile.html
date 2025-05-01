@@ -8,27 +8,31 @@
 </head>
 <body>
     <header>
-        <h1>Organizador FTK</h1>
-        <nav>
+        
+        <header>
+            <button id="menu-toggle">☰</button>
+            <h1>FR Services</h1>
+        </header>
+        
+        <aside id="sidebar">
             <button onclick="trocarAba('pgIncial')">Início</button>
             <button onclick="trocarAba('tarefas')">Tarefas</button>
             <button onclick="trocarAba('noticias')">Notícias</button>
             <button onclick="trocarAba('horarios')">Horários</button>
             <button onclick="trocarAba('professores')">Professores</button>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdEBMilPMnIajdF9MeV7QLqe9UyW6QWDxK2zauj0beSQUhdBA/viewform?usp=sharing" target="_blank">Sugestões</a>
-        </nav>
+        </aside>
+        
     </header>
 
     <div class="content">
         <div id="pgIncial" class="tab-content active">
-            <h2>Bem-vindo ao Organizador FTK!</h2>
-            <p>O Organizador FTK é uma ferramenta prática e eficiente para estudantes do IFC Blumenau. Ele permite organizar tarefas, acompanhar horários de aulas, acessar contatos de professores e manter-se informado com notícias do campus. Com design intuitivo e funcionalidade responsiva, oferece uma experiência otimizada tanto para desktops quanto para dispositivos móveis, incluindo suporte a armazenamento dinâmico via Firebase. Ideal para planejar e gerenciar sua rotina acadêmica.</p>
+            <h2>Bem-vindo ao FR Services!</h2>
+            <p>O FR Services é uma ferramenta prática e eficiente para estudantes do IFC Blumenau. Ele permite organizar tarefas, acompanhar horários de aulas, acessar contatos de professores e manter-se informado com notícias do campus. Com design intuitivo e funcionalidade responsiva, oferece uma experiência otimizada tanto para desktops quanto para dispositivos móveis, incluindo suporte a armazenamento dinâmico via Firebase. Ideal para planejar e gerenciar sua rotina acadêmica.</p>
         </div>
         <div id="tarefas" class="tab-content">
             <h2>Cadastrar Tarefa</h2>
             <form id="formTarefas">
-                <label>Data:</label>
-                <input type="date" id="dataTarefa" required>
                 <label>Matéria:</label>
                 <select id="materiaTarefa">
                     <option>Matemática</option>
@@ -54,6 +58,10 @@
                     <option>Prova</option>
                     <option>Tarefa</option>
                 </select>
+                <label>Data Inicio:</label>
+                <input type="date" id="dataITarefa" required>
+                <label>Data Final:</label>
+                <input type="date" id="dataFTarefa" >
                 <label>Descrição:</label>
                 <textarea id="descricaoTarefa" rows="4" required></textarea>
                 <button type="submit">Adicionar</button>
@@ -62,7 +70,8 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Data</th>
+                        <th>Data Inicio</th>
+                        <th>Data Final </th>
                         <th>Matéria</th>
                         <th>Tipo</th>
                         <th>Descrição</th>
@@ -186,6 +195,17 @@
           });
         }
       </script>
+      <script>
+        document.getElementById("menu-toggle").addEventListener("click", function () {
+            document.body.classList.toggle("sidebar-open");
+        });
+        document.querySelectorAll("#sidebar button, #sidebar a").forEach(link => {
+        link.addEventListener("click", () => {
+            document.body.classList.remove("sidebar-open");
+        });
+    });
+    </script>
+    
       
 
     <script type="module" src="mobile.js"></script>
