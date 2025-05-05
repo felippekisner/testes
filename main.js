@@ -123,7 +123,7 @@ function carregarTarefas() {
         const descricao = document.getElementById("descricaoTarefa").value;
     
         if (!dataF) {
-            dataF = "Mesmo dia";
+            dataF = data;
         }
     
         const nova = {
