@@ -1,114 +1,291 @@
-h1{
-    text-align: center;
-    color: white;
-}
-div .bloco{
-    background-color: blue;
-}
-h2{
-    color: white;
-
-}
-p{
-    color: white;
-}
-
 body {
-      margin: 0;
-      background: linear-gradient(135deg, #0d47a1, #1abc9c);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #333;
-      padding: 50px 20px;
-    }
-    img {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #8c1809;
+    color: rgb(22, 150, 17);
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar h1 {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    display: block;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #34495e;
+    border: none;
+    color: white;
+    cursor: pointer;
     width: 100%;
-    max-width: 300px; /* largura fixa */
-    height: 200px;    /* altura fixa */
-    object-fit: cover; /* corta e centraliza a imagem sem distorcer */
-    border-radius: 10px;
+    text-align: left;
+    border-radius: 5px;
+    text-transform: capitalize;
+}
+
+.tab-btn:hover {
+    background-color: #1abc9c;
+}
+
+.content {
+    margin-left: 240px;
+    padding: 20px;
+    flex: 1;
+}
+
+.tab-content {
+    display: none;
+}
+
+ body{
+  display: block;
+  background-color: white;
+  background-size:auto;
+}
+.tab-content.active h2{
+    text-align: center;
+    align-items: center;
+    line-height: center;
+    font-size: xx-large;
+    flex-direction: column;
+  justify-content: center;
+  top: 50%;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input, select, textarea, button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 10px;
-  }
+    background-color: #dde7dd;
+}
 
-    .voltar {
-      color: #fff;
-      text-decoration: none;
-      font-size: 3em;
-      position: absolute;
-      top: 20px;
-      left: 25px;
-      transition: transform 0.3s, color 0.3s;
-    }
-    .voltar:hover {
-      color: #ffdd57;
-      transform: scale(1.2);
+table, th, td {
+    border: 1px solid #ccc;
+    border-color: #073a4e;
+}
+th{
+  background-color: #129b2d;
+}
+
+.tab-btn:hover::after {
+  content: "|";
+  color: #e74c3c;
+  position: absolute;
+  left: 30px;
+}
+/* Style geral para parágrafos */
+p {
+  font-family: 'Helvetica Neue', Arial, sans-serif; /* Fonte limpa e legível */
+  font-size: 1rem;        /* Tamanho de fonte padrão */
+  line-height: 1.6;       /* Espaçamento entre linhas */
+  color: #333333;         /* Cor de texto escura para boa leitura */
+  margin: 1.5rem 0;       /* Espaço acima e abaixo de cada parágrafo */
+  padding: 0.5rem 1rem;   /* Espaço interno: 0.5rem em cima/embaixo, 1rem lateral */
+  background-color: #f9f9f9; /* Fundo suave para destacar o bloco de texto */
+  border-left: 4px solid #4CAF50; /* Barra lateral verde para identidade visual */
+  border-radius: 0.25rem; /* Cantos levemente arredondados */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil */
+}
+
+
+/* Ajuste de espaçamento extra entre parágrafos consecutivos */
+p + p {
+  margin-top: 2rem; /* Mais destaque entre blocos de texto */
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+/* RESPONSIVIDADE PARA TELAS ATÉ 600px */
+/* Responsividade para dispositivos móveis */
+/* Responsivo para telas até 768px */
+@media (max-width: 768px) {
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 1rem;
     }
 
-    h1 {
+    header {
+      background-color: #129b2d;
+      color: white;
+      padding: 1rem;
       text-align: center;
-      color: #fff;
-      font-size: 3.5em;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 60px;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      font-size: 1.3rem;
+      font-weight: bold;
     }
 
-    .destinos {
-      max-width: 1100px;
-      margin: 0 auto;
+    nav {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 30px;
+      margin-top: 1rem;
+      gap: 0.5rem;
     }
 
-    .destino {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 16px;
-      padding: 25px;
-      width: 300px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .destino:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    nav button {
+      flex: 1 1 45%;
+      padding: 1rem;
+      font-size: 1rem;
+      background-color: #1abc9c;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
-    .destino h2 {
-      font-size: 1.6em;
-      color: #0d47a1;
-      margin-bottom: 10px;
+    section {
+      margin-top: 2rem;
     }
 
-    .destino ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 15px 0;
+    section h2 {
+      font-size: 1.2rem;
+      color: #129b2d;
     }
 
-    .destino li {
-      margin-bottom: 8px;
-      font-size: 1.05em;
-      font-weight: bold;
-      color: #333;
+    .card {
+      background: white;
+      border-left: 4px solid #129b2d;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    .destino a {
-      color: #1abc9c;
-      font-weight: bold;
-      text-decoration: none;
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
     }
-    .destino a:hover {
-      text-decoration: underline;
-    }
+}
 
-    .destino img {
-      width: 100%;
-      border-radius: 12px;
-      transition: transform 0.3s;
-    }
-    .destino img:hover {
-      transform: scale(1.05);
-    }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f6f6f6;
+  }
+  
+  /* Quando o mouse estiver sobre o botão de toggle, adiciona a classe 'open' na sidebar via JS */
+#menu-toggle.hovered + #sidebar,
+.sidebar.open {
+  transform: translateX(0);  /* garante que fique visível */
+}
+
+/* Sidebar padrão (fechada) */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;               /* largura só para ícones */
+  overflow: hidden;          /* esconde o texto */
+  transition: width 0.3s ease-in-out;
+  background: #129b2d;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+/* Sidebar aberta */
+.sidebar.open {
+  width: 200px;             /* largura completa */
+}
+
+/* Botões de aba: escondem o texto por padrão */
+.tab-btn .text {
+  display: none;
+}
+
+/* Ao abrir a sidebar, mostra o texto */
+.sidebar.open .tab-btn .text {
+  display: inline;
+  margin-left: 8px;
+}
+
+/* Alinha ícone e texto horizontalmente */
+.tab-btn {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Ícones sempre visíveis */
+.tab-btn .icon {
+  font-size: 1.2rem;
+}
+
+
+  .sidebar.open #menu-toggle{
+    text-align: flex;
+  }
+  
+  .sidebar .top {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  #menu-toggle {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    color: white;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .tab-btn:hover {
+    background-color: #07357b;
+  }
+  
+  .text {
+    display: none;
+    white-space: nowrap;
+  }
+  
+  .sidebar.open .text {
+    display: inline;
+  }
+  
