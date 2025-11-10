@@ -3,8 +3,8 @@
   "short_name": "FR Services",
   "start_url": "/testes/index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#129b2d",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "orientation": "portrait",
   "description": "Um app para organizar tarefas, horários e serviços de forma prática.",
   "lang": "pt-BR",
@@ -22,3 +22,4 @@
     }
   ]
 }
+
