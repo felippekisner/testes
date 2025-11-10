@@ -1,291 +1,280 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
+/* ==================================== */
+/* 1. VARIÁVEIS DE CORES (DARK MODE COMO PADRÃO) */
+/* ==================================== */
+:root {
+    /* Cores Principais */
+    --cor-primaria: #007bff;        /* Azul Forte / Destaque */
+    --cor-secundaria: #333333;      /* Cinza Escuro (Neutro) */
+    --cor-sucesso: #28a745;         /* Verde para sucesso */
+    --cor-perigo: #dc3545;          /* Vermelho para remover */
+
+    /* Cores do Tema (Dark Mode) */
+    --fundo-pagina: #121212;        /* Fundo principal escuro (Quase Preto) */
+    --fundo-card: #1e1e1e;          /* Fundo dos cards (um pouco mais claro) */
+    --cor-texto: #ffffff;           /* Texto claro */
+    --cor-texto-secundario: #b0b0b0;/* Texto mais apagado */
+    --borda: #333333;               /* Borda e separadores */
+    --sombra-leve: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra mais visível no escuro */
 }
 
-.sidebar {
-    width: 200px;
-    background-color: #8c1809;
-    color: rgb(22, 150, 17);
-    padding: 20px;
-    height: 100vh;
-    position: fixed;
+/* ==================================== */
+/* 2. LIGHT MODE (Alternativa) */
+/* Adicione a classe 'light-mode' ao body/app para ativar */
+/* ==================================== */
+.light-mode {
+    --fundo-pagina: #f0f2f5;        /* Branco Suave */
+    --fundo-card: #ffffff;          /* Branco Puro */
+    --cor-texto: #000000;           /* Preto */
+    --cor-texto-secundario: #6c757d;/* Cinza */
+    --borda: #dee2e6;               /* Borda leve */
+    --sombra-leve: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar h1 {
-    font-size: 20px;
-    margin-bottom: 30px;
-}
-
-.tab-btn {
-    display: block;
-    margin-bottom: 15px;
-    padding: 10px;
-    background-color: #34495e;
-    border: none;
-    color: white;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    border-radius: 5px;
-    text-transform: capitalize;
-}
-
-.tab-btn:hover {
-    background-color: #1abc9c;
-}
-
-.content {
-    margin-left: 240px;
-    padding: 20px;
-    flex: 1;
-}
-
-.tab-content {
-    display: none;
-}
-
- body{
-  display: block;
-  background-color: white;
-  background-size:auto;
-}
-.tab-content.active h2{
-    text-align: center;
-    align-items: center;
-    line-height: center;
-    font-size: xx-large;
-    flex-direction: column;
-  justify-content: center;
-  top: 50%;
-}
-
-form {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin: 10px 0 5px;
-}
-
-input, select, textarea, button {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+/* ==================================== */
+/* 3. RESET & TIPOGRAFIA BÁSICA */
+/* ==================================== */
+* {
     box-sizing: border-box;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background-color: #dde7dd;
-}
-
-table, th, td {
-    border: 1px solid #ccc;
-    border-color: #073a4e;
-}
-th{
-  background-color: #129b2d;
-}
-
-.tab-btn:hover::after {
-  content: "|";
-  color: #e74c3c;
-  position: absolute;
-  left: 30px;
-}
-/* Style geral para parágrafos */
-p {
-  font-family: 'Helvetica Neue', Arial, sans-serif; /* Fonte limpa e legível */
-  font-size: 1rem;        /* Tamanho de fonte padrão */
-  line-height: 1.6;       /* Espaçamento entre linhas */
-  color: #333333;         /* Cor de texto escura para boa leitura */
-  margin: 1.5rem 0;       /* Espaço acima e abaixo de cada parágrafo */
-  padding: 0.5rem 1rem;   /* Espaço interno: 0.5rem em cima/embaixo, 1rem lateral */
-  background-color: #f9f9f9; /* Fundo suave para destacar o bloco de texto */
-  border-left: 4px solid #4CAF50; /* Barra lateral verde para identidade visual */
-  border-radius: 0.25rem; /* Cantos levemente arredondados */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil */
-}
-
-
-/* Ajuste de espaçamento extra entre parágrafos consecutivos */
-p + p {
-  margin-top: 2rem; /* Mais destaque entre blocos de texto */
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-}
-/* RESPONSIVIDADE PARA TELAS ATÉ 600px */
-/* Responsividade para dispositivos móveis */
-/* Responsivo para telas até 768px */
-@media (max-width: 768px) {
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 1rem;
-    }
-
-    header {
-      background-color: #129b2d;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.3rem;
-      font-weight: bold;
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 1rem;
-      gap: 0.5rem;
-    }
-
-    nav button {
-      flex: 1 1 45%;
-      padding: 1rem;
-      font-size: 1rem;
-      background-color: #1abc9c;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    section {
-      margin-top: 2rem;
-    }
-
-    section h2 {
-      font-size: 1.2rem;
-      color: #129b2d;
-    }
-
-    .card {
-      background: white;
-      border-left: 4px solid #129b2d;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #888;
-    }
-}
-
-  body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f6f6f6;
-  }
-  
-  /* Quando o mouse estiver sobre o botão de toggle, adiciona a classe 'open' na sidebar via JS */
-#menu-toggle.hovered + #sidebar,
-.sidebar.open {
-  transform: translateX(0);  /* garante que fique visível */
+    padding: 0;
 }
 
-/* Sidebar padrão (fechada) */
-.sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 60px;               /* largura só para ícones */
-  overflow: hidden;          /* esconde o texto */
-  transition: width 0.3s ease-in-out;
-  background: #129b2d;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--fundo-pagina);
+    color: var(--cor-texto);
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Sidebar aberta */
-.sidebar.open {
-  width: 200px;             /* largura completa */
-}
-
-/* Botões de aba: escondem o texto por padrão */
-.tab-btn .text {
-  display: none;
-}
-
-/* Ao abrir a sidebar, mostra o texto */
-.sidebar.open .tab-btn .text {
-  display: inline;
-  margin-left: 8px;
-}
-
-/* Alinha ícone e texto horizontalmente */
-.tab-btn {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border: none;
-  background: none;
-  width: 100%;
-  cursor: pointer;
-}
-
-/* Ícones sempre visíveis */
-.tab-btn .icon {
-  font-size: 1.2rem;
-}
-
-
-  .sidebar.open #menu-toggle{
-    text-align: flex;
-  }
-  
-  .sidebar .top {
-    padding: 10px;
-    text-align: center;
-  }
-  
-  #menu-toggle {
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .tab-btn {
+/* ==================================== */
+/* 4. LAYOUT PRINCIPAL (APP) */
+/* ==================================== */
+.app {
     display: flex;
-    align-items: center;
-    gap: 15px;
+    flex-direction: column;
+    min-height: 100vh;
     width: 100%;
-    padding: 12px 20px;
-    border: none;
-    background: none;
-    color: white;
-    text-align: left;
-    font-size: 16px;
+    max-width: 600px; /* Limite a largura para um ótimo visual mobile */
+    margin: 0 auto;
+}
+
+/* ==================================== */
+/* 5. CABEÇALHO (HEADER) */
+/* ==================================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--fundo-card); /* Fundo sutilmente diferente */
+    border-bottom: 1px solid var(--borda);
+}
+
+header h1 {
+    font-size: 1.4rem;
+    color: var(--cor-primaria); /* Título em Azul Forte */
+    flex-grow: 1; /* Permite que o título ocupe espaço */
+}
+
+#user-info {
+    font-size: 0.8rem;
+    color: var(--cor-texto-secundario);
+    padding: 0 10px;
+    text-align: right;
+}
+
+/* Botão Sair - Neutro/Perigo */
+#logout {
+    background-color: transparent;
+    border: 1px solid var(--cor-perigo);
+    color: var(--cor-perigo);
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 4px;
     cursor: pointer;
-  }
-  
-  .tab-btn:hover {
-    background-color: #07357b;
-  }
-  
-  .text {
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#logout:hover {
+    background-color: var(--cor-perigo);
+    color: var(--fundo-pagina); /* Usa a cor de fundo da página para contraste */
+}
+
+/* ==================================== */
+/* 6. NAVEGAÇÃO (TABS) */
+/* ==================================== */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--fundo-card);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borda);
+    position: sticky; /* Fixa as abas no topo durante o scroll */
+    top: 0;
+    z-index: 10; /* Garante que fique acima do conteúdo */
+}
+
+.tabs button {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    background: transparent;
+    color: var(--cor-texto-secundario);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.tabs button.active {
+    color: var(--cor-primaria); /* Texto da aba ativa em Azul Forte */
+    border-bottom: 3px solid var(--cor-primaria); /* Linha Azul Forte */
+}
+
+.tabs button:hover:not(.active) {
+    color: var(--cor-texto);
+}
+
+/* ==================================== */
+/* 7. CONTEÚDO PRINCIPAL (MAIN) */
+/* ==================================== */
+main {
+    flex-grow: 1;
+    padding: 15px;
+}
+
+.tab {
     display: none;
-    white-space: nowrap;
-  }
-  
-  .sidebar.open .text {
-    display: inline;
-  }
-  
+}
+
+.tab.active {
+    display: block;
+}
+
+/* ==================================== */
+/* 8. CARTÕES (CARDS) e LISTAS */
+/* ==================================== */
+.card {
+    background-color: var(--fundo-card);
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: var(--sombra-leve);
+    margin-bottom: 15px; /* Espaço entre cards */
+    border: 1px solid var(--borda); /* Borda sutil para definir o limite */
+}
+
+.card h3 {
+    color: var(--cor-primaria);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    border-bottom: 1px dashed var(--borda);
+    padding-bottom: 5px;
+}
+
+.card p {
+    margin: 5px 0 10px;
+    line-height: 1.4;
+    color: var(--cor-texto);
+}
+
+.list .card {
+    background-color: var(--fundo-card); /* Mantém o fundo do card para itens de lista */
+    padding: 12px;
+    margin-bottom: 10px;
+    border-left: 5px solid var(--cor-primaria); /* Destaque da tarefa/notícia com Azul Forte */
+    display: flex;
+    flex-direction: column;
+}
+
+.list .card h3 {
+    font-size: 1rem;
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+.muted {
+    font-size: 0.8rem;
+    color: var(--cor-texto-secundario);
+    margin-top: 5px;
+}
+
+/* ==================================== */
+/* 9. FORMULÁRIOS (INPUTS, TEXTAREA) */
+/* ==================================== */
+.task-form, .news-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background-color: var(--fundo-pagina); /* Mais escuro que o card, mais contraste */
+    color: var(--cor-texto);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Efeito de foco em Azul Forte */
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Placeholder */
+::placeholder {
+    color: var(--cor-texto-secundario);
+    opacity: 0.7;
+}
+
+/* ==================================== */
+/* 10. BOTÕES (AÇÕES) */
+/* ==================================== */
+button {
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Botão Primário (Salvar) */
+.task-form button[type="submit"], 
+.news-form button[type="submit"] {
+    background-color: var(--cor-primaria);
+    color: var(--fundo-card); /* Branco/Fundo do Card para contraste */
+    border: 1px solid var(--cor-primaria);
+    margin-top: 5px;
+}
+
+.task-form button[type="submit"]:hover,
+.news-form button[type="submit"]:hover {
+    background-color: #0056b3; /* Azul mais escuro no hover */
+    border-color: #0056b3;
+}
+
+/* Botão de Remover */
+.list .card button {
+    align-self: flex-start; /* Alinha o botão à esquerda no card */
+    background-color: transparent;
+    border: 1px solid var(--cor-perigo);
+    color: var(--cor-perigo);
+    font-size: 0.85rem;
+    padding: 5px 10px;
+    margin-top: 10px;
+}
+
+.list .card button:hover {
+    background-color: var(--cor-perigo);
+    color: var(--fundo-card);
+}

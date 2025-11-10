@@ -1,7 +1,18 @@
-// Firebase Configuração já existente
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+// main.js — Organizador Escolar (versão corrigida)
 
+// Importando Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCqWaY2RdgWVcJyZUZmAvnL7YJ41Et8Y6s",
   authDomain: "organizadorlp.firebaseapp.com",
@@ -12,298 +23,152 @@ const firebaseConfig = {
   measurementId: "G-WZP1LGTPQY"
 };
 
+// Inicializa Firebase e Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Referências
-const toggleButton = document.getElementById("menu-toggle");
-const sidebar = document.getElementById("sidebar");
+// =====================
+// TROCA ENTRE ABAS
+// =====================
+const botoes = document.querySelectorAll(".aba");
+const conteudos = document.querySelectorAll(".conteudo");
 
-// Hover no botão abre a sidebar e troca o texto
-toggleButton.addEventListener("mouseenter", () => {
-  sidebar.classList.add("open");
-  toggleButton.textContent = "Organizador";
-});
-
-const toggleSidebar = () => {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('open');
-  };
-  
-  document.getElementById('menu-toggle').addEventListener('click', toggleSidebar);
-  
-
-// Quando o mouse sair da sidebar, fecha e volta o texto
-sidebar.addEventListener("mouseleave", () => {
-  sidebar.classList.remove("open");
-  toggleButton.textContent = "☰";
-});
-
-// Fechar sidebar ao selecionar uma aba (em dispositivos móveis)
-document.querySelectorAll("#sidebar a").forEach(link => {
-  link.addEventListener("click", () => {
-    if (window.innerWidth <= 768) {
-      sidebar.classList.remove("open");
-      toggleButton.textContent = "☰";
-    }
+botoes.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const alvo = btn.getAttribute("data-alvo");
+    conteudos.forEach((div) => (div.style.display = "none"));
+    document.getElementById(alvo).style.display = "block";
   });
 });
 
-// Troca entre abas
-window.trocarAba = function(abaId) {
-    document.querySelectorAll('.tab-content').forEach(div => div.style.display = 'none');
-    document.getElementById(abaId).style.display = 'block';
+// =====================
+// SEÇÃO: TAREFAS
+// =====================
+const tarefasLista = document.getElementById("tarefas-lista");
+const formTarefa = document.getElementById("form-tarefa");
 
-    if (abaId === 'pgIncial') carregarInicial();
-    if (abaId === 'tarefas') carregarTarefas();
-    if (abaId === 'noticias') carregarNoticias();
-    if (abaId === 'horarios') carregarHorarios();
-    if (abaId === 'professores') carregarProfessores();
-};
+if (formTarefa) {
+  formTarefa.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const titulo = formTarefa["titulo"].value.trim();
+    const data = formTarefa["data"].value;
 
-// Ao carregar o site, abre direto na aba inicial
-window.onload = () => {
-    trocarAba("pgIncial");
-    ajustarSidebar();
-};
+    if (!titulo || !data) return alert("Preencha todos os campos!");
 
-// Função para ajustar a sidebar em telas pequenas
-function ajustarSidebar() {
-  if (window.innerWidth <= 768) {
-    sidebar.classList.remove("open");
-    toggleButton.textContent = "☰";
-  }
+    try {
+      await addDoc(collection(db, "tarefas"), { titulo, data });
+      formTarefa.reset();
+    } catch (err) {
+      console.error("Erro ao adicionar tarefa:", err);
+    }
+  });
 }
 
-// Recalcular ao redimensionar a janela
-window.addEventListener("resize", ajustarSidebar);
+// Função para renderizar tarefas em ordem crescente de data
+function renderizarTarefas(snapshot) {
+  tarefasLista.innerHTML = "";
+  const tarefas = [];
 
-// --- TAREFAS ---
+  snapshot.forEach((docSnap) => {
+    tarefas.push({ id: docSnap.id, ...docSnap.data() });
+  });
 
+  tarefas.sort((a, b) => new Date(a.data) - new Date(b.data));
 
-  
-
-function carregarTarefas() {
-    document.getElementById("tarefas").innerHTML = `
-    <h2> Cadastrar Tarefas </h2>
-        <form id="formTarefa">
-            <label>Matéria:</label>
-            <select id="materiaTarefa">
-                ${gerarOpcoesMateria()}
-            </select>
-            <label>Tipo de Avaliação:</label>
-            <select id="tipoTarefa">
-                <option>Trabalho</option>
-                <option>Prova</option>
-                <option>Tarefa</option>
-            </select>
-              <label>Data Inicio :</label>
-            <input type="date" id="dataITarefa" required>
-              <label>Data Final:</label>
-            <input type="date" id="dataFTarefa">
-            <label>Descrição:</label>
-            <textarea id="descricaoTarefa" rows="4"></textarea>
-            <button type="submit">Adicionar</button>
-        </form>
-        <table>
-            <thead>
-                <tr><th>Data Inicio</th><th>Data Final</th><th>Matéria</th><th>Tipo</th><th>Tarefa</th><th>Ação</th></tr>
-            </thead>
-            <tbody id="listaTarefas"></tbody>
-        </table>
+  tarefas.forEach((tarefa) => {
+    const div = document.createElement("div");
+    div.classList.add("tarefa");
+    div.innerHTML = `
+      <p><strong>${tarefa.titulo}</strong> - ${tarefa.data}</p>
+      <button class="excluir-tarefa" data-id="${tarefa.id}">Excluir</button>
     `;
+    tarefasLista.appendChild(div);
+  });
 
-    document.getElementById("formTarefa").addEventListener("submit", async (e) => {
-        e.preventDefault();
-    
-        const materia = document.getElementById("materiaTarefa").value;
-        const tipo = document.getElementById("tipoTarefa").value;
-        const data = document.getElementById("dataITarefa").value;
-        let dataF =  document.getElementById("dataFTarefa").value;
-        const descricao = document.getElementById("descricaoTarefa").value;
-    
-        if (!dataF) {
-            dataF = data;
+  document.querySelectorAll(".excluir-tarefa").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.getAttribute("data-id");
+      try {
+        await deleteDoc(doc(db, "tarefas", id));
+        btn.parentElement.remove(); // remove da tela instantaneamente
+      } catch (err) {
+        console.error("Erro ao excluir tarefa:", err);
+      }
+    });
+  });
+}
+
+// Atualização em tempo real das tarefas
+onSnapshot(collection(db, "tarefas"), (snapshot) => {
+  renderizarTarefas(snapshot);
+});
+
+// =====================
+// SEÇÃO: HORÁRIOS
+// =====================
+const horariosTabela = document.getElementById("horarios-tabela");
+const addHorarioBtn = document.getElementById("add-horario");
+
+// Só tenta adicionar eventos se o elemento existir
+if (addHorarioBtn && horariosTabela) {
+  addHorarioBtn.addEventListener("click", async () => {
+    const novaLinha = document.createElement("tr");
+    novaLinha.innerHTML = `
+      <td><input placeholder="Dia"></td>
+      <td><input placeholder="Hora"></td>
+      <td><input placeholder="Matéria"></td>
+      <td><button class="salvar-horario">Salvar</button></td>
+      <td><button class="excluir-horario">Excluir</button></td>
+    `;
+    horariosTabela.appendChild(novaLinha);
+
+    novaLinha.querySelector(".salvar-horario").addEventListener("click", async () => {
+      const dia = novaLinha.children[0].querySelector("input").value.trim();
+      const hora = novaLinha.children[1].querySelector("input").value.trim();
+      const materia = novaLinha.children[2].querySelector("input").value.trim();
+      if (!dia || !hora || !materia) return alert("Preencha todos os campos!");
+
+      try {
+        await addDoc(collection(db, "horarios"), { dia, hora, materia });
+        novaLinha.remove(); // limpa linha de edição
+      } catch (err) {
+        console.error("Erro ao salvar horário:", err);
+      }
+    });
+
+    novaLinha.querySelector(".excluir-horario").addEventListener("click", () => {
+      novaLinha.remove();
+    });
+  });
+
+  // Atualização em tempo real dos horários
+  onSnapshot(collection(db, "horarios"), (snapshot) => {
+    horariosTabela.innerHTML = "";
+    snapshot.forEach((docSnap) => {
+      const horario = { id: docSnap.id, ...docSnap.data() };
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${horario.dia}</td>
+        <td>${horario.hora}</td>
+        <td>${horario.materia}</td>
+        <td>-</td>
+        <td><button class="excluir-horario" data-id="${horario.id}">Excluir</button></td>
+      `;
+      horariosTabela.appendChild(tr);
+    });
+
+    document.querySelectorAll(".excluir-horario").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        try {
+          await deleteDoc(doc(db, "horarios", id));
+          btn.parentElement.parentElement.remove();
+        } catch (err) {
+          console.error("Erro ao excluir horário:", err);
         }
-    
-        const nova = {
-            materia: materia,
-            tipo: tipo,
-            data: data,
-            dataF: dataF,
-            descricao: descricao
-        };
-    
-        await addDoc(collection(db, "tarefas"), nova);
-        carregarTarefas();
+      });
     });
-    
-
-    atualizarTabelaTarefas();
-}
-
-async function atualizarTabelaTarefas() {
-    const tbody = document.getElementById("listaTarefas");
-    tbody.innerHTML = "";
-
-    const q = query(collection(db, "tarefas"), orderBy("data"));
-    const snap = await getDocs(q);
-    snap.forEach(docSnap => {
-        const t = docSnap.data();
-        tbody.innerHTML += `
-            <tr>
-                <td>${t.data}</td>
-                <td>${t.dataF}</td>
-                <td>${t.materia}</td>
-                <td>${t.tipo}</td>
-                <td>${t.descricao}</td>
-                <td><button onclick="excluirTarefa('${docSnap.id}')">Excluir</button></td>
-            </tr>
-        `;
-    });
-}
-
-window.excluirTarefa = async function(id) {
-    await deleteDoc(doc(db, "tarefas", id));
-    carregarTarefas();
-};
-
-
-
-// --- NOTÍCIAS ---
-function carregarNoticias() {
-    document.getElementById("noticias").innerHTML = `
-    <h2> Cadastrar Noticias </h2>
-        <form id="formNoticias">
-            <label>Data:</label>
-            <input type="date" id="dataNoticia" placeholder="Ex: 23/04/25" required>
-            <label>Matéria:</label>
-            <select id="materiaNoticia">
-                <option>Mensagem do Instituto</option>
-                ${gerarOpcoesMateria()}
-            </select>
-            <label>Notícia:</label>
-            <textarea id="descricaoNoticia" rows="4"></textarea>
-             
-            <button type="submit">Adicionar</button>
-        </form>
-        <table>
-            <thead>
-                <tr><th>Data</th><th>Matéria</th><th>Notícia</th><th>Ação</th></tr>
-            </thead>
-            <tbody id="listaNoticias"></tbody>
-        </table>
-    `;
-
-    document.getElementById("formNoticias").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const nova = {
-            data: document.getElementById("dataNoticia").value,
-            materia: document.getElementById("materiaNoticia").value,
-            descricao: document.getElementById("descricaoNoticia").value
-        };
-        await addDoc(collection(db, "noticias"), nova);
-        carregarNoticias();
-    });
-
-    atualizarTabelaNoticias();
-}
-
-async function atualizarTabelaNoticias() {
-    const tbody = document.getElementById("listaNoticias");
-    tbody.innerHTML = "";
-
-    const q = query(collection(db, "noticias"), orderBy("data"));
-    const snap = await getDocs(q);
-    snap.forEach(docSnap => {
-        const n = docSnap.data();
-        tbody.innerHTML += `
-            <tr>
-                <td>${n.data}</td>
-                <td>${n.materia}</td>
-                <td>${n.descricao}</td>
-                <td><button onclick="excluirNoticia('${docSnap.id}')">Excluir</button></td>
-            </tr>
-        `;
-    });
-}
-
-window.excluirNoticia = async function(id) {
-    await deleteDoc(doc(db, "noticias", id));
-    carregarNoticias();
-};
-
-// --- HORÁRIOS (fixos no HTML mesmo) ---
-function carregarHorarios() {
-    document.getElementById("horarios").innerHTML = `
-        <h2>Horário de Aulas</h2>
-        <table>
-            <tr>
-                <th>Segunda</th><th>Terça</th><th>Quarta</th><th>Quinta</th><th>Sexta</th>
-            </tr>
-            <tr>
-                <td><strong>Manhã</strong><br>Inglês<br>Inglês<br><strong>Lanche</strong><br>Geografia<br>Geografia<br>Biologia</td>
-                <td><strong>Manhã</strong><br>Hardware<br>Hardware<br><strong>Lanche</strong><br>Filosofia<br>Lógica de Programação<br>Lógica de Programação</td>
-                <td><strong>Manhã</strong><br>Química<br>Química<br><strong>Lanche</strong><br>Matemática<br>Matemática<br>Filosofia</td>
-                <td><strong>Manhã</strong><br>História<br>Artes<br><strong>Lanche</strong><br>Artes<br>Lógica de Programação<br>Lógica de Programação</td>
-                <td><strong>Manhã</strong><br>Português<br>Português<br><strong>Lanche</strong><br>Português<br>Educação Física<br>Educação Física</td>
-            </tr>
-            <tr>
-                <td><strong>Tarde</strong><br>Biologia<br>Matemática<br>Matemática<br><strong>Lanche</strong><br>Web Design<br>Web Design</td>
-                <td></td>
-                <td><strong>Tarde</strong><br>História<br>Hardware<br>Hardware<br><strong>Lanche</strong><br>Metodologia Científica<br>Metodologia Científica</td>
-                <td></td>
-                <td><strong>Tarde</strong><br>Física<br>Física<br>Fundamentos da Informática<br><strong>Lanche</strong><br>Fundamentos da Informática</td>
-            </tr>
-        </table>
-    `;
-}
-function carregarInicial() {
-    document.getElementById("pgInicial").innerHTML = `
-        <h2>Introdução</h2> <br>
-        <p>                                                 Bem-vindo ao seu espaço de apoio à organização escolar! Este site foi criado especialmente para ajudar alunos como você a se manterem organizados, motivados e no controle da rotina de estudos. Aqui, você vai encontrar dicas, ferramentas e materiais que facilitam o planejamento das tarefas, o gerenciamento do tempo e o alcance de melhores resultados na escola. 
-        Tudo pensado para tornar o seu dia a dia mais leve e produtivo.</p>
-        
-        
-    `;
-}
-
-// --- PROFESSORES (fixos no HTML mesmo) ---
-function carregarProfessores() {
-    document.getElementById("professores").innerHTML = `
-        <h2>Professores e Contato</h2>
-        <table>
-            <thead>
-                <tr><th>Matéria</th><th>Nome do Professor</th><th>E-mail</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>Artes</td><td>Suzana Back</td><td>suzana.back@ifc.edu.br</td></tr>
-                <tr><td>Biologia</td><td>Karlan Rau</td><td>karlan.rau@ifc.edu.br</td></tr>
-                <tr><td>Educação Física</td><td>Daniel Minuzzi de Souza</td><td>daniel.souza@ifc.edu.br</td></tr>
-                <tr><td>Filosofia</td><td>Adaltro Prochnov Nunes</td><td>adaltro.nunes@ifc.edu.br</td></tr>
-                <tr><td>Física</td><td>Cinta Barbosa Passos</td><td>cinta.passos@ifc.edu.br</td></tr>
-                <tr><td>Fundamentos da Informática</td><td>Adriano Pizzini</td><td>adriano.pizzini@ifc.edu.br</td></tr>
-                <tr><td>Geografia</td><td>Cloves Alexandre de Castro</td><td>cloves.castro@ifc.edu.br</td></tr>
-                <tr><td>Hardware e Sistemas Operacionais</td><td>Heverton Mendes de Oliveira</td><td>heverton.oliveira@ifc.edu.br</td></tr>
-                <tr><td>História</td><td>Anderson Negru Galcoswki</td><td>anderson.galcoswki@ifc.edu.br</td></tr>
-                <tr><td>Inglês</td><td>Rita de Cássia da Silveira Cordeiro</td><td>rita.cordeiro@ifc.edu.br</td></tr>
-                <tr><td>Língua Portuguesa</td><td>Cleonice Marisa de Brito Nazedok</td><td>cleonice.nazedok@ifc.edu.br</td></tr>
-                <tr><td>Lógica de Programação</td><td>Riad Mattos Nassife</td><td>riad.nassife@ifc.edu.br</td></tr>
-                <tr><td>Matemática</td><td>Micheli Cristina Starosky Roloff</td><td>micheli.roloff@ifc.edu.br</td></tr>
-                <tr><td>Metodologia Científica</td><td>Fani Luci Martendal Bernhardt</td><td>fani.bernhardt@ifc.edu.br</td></tr>
-                <tr><td>Química</td><td>Carlos Eduardo Bencke</td><td>carlos.bencke@ifc.edu.br</td></tr>
-                <tr><td>Web Design</td><td>Shirlei Magali Vendrami</td><td>shirlei.vendrami@ifc.edu.br</td></tr>
-            </tbody>
-        </table>
-    `;
-}
-
-// Função auxiliar para montar as <option> de matérias
-function gerarOpcoesMateria() {
-    const materias = [
-        "Matemática", "Português", "Física", "Química", "Biologia", "História",
-        "Geografia", "Inglês", "Filosofia", "Artes", "Educação Física",
-        "Web Design", "Lógica de Programação", "Hardware", "Metodologia Científica", "Fundamentos da Informática"
-    ];
-    return materias.map(m => `<option>${m}</option>`).join("");
+  });
+} else {
+  console.warn("⚠️ Elementos de horários não encontrados — verifique se o HTML está correto.");
 }

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Organizador Escolar — App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Organizador Escolar</h1>
+      <div id="user-info">Carregando...</div>
+      <button id="logout">Sair</button>
+    </header>
+
+    <nav class="tabs">
+      <button data-tab="tarefas" class="active">Tarefas</button>
+      <button data-tab="noticias">Notícias</button>
+    </nav>
+
+    <main>
+      <section id="tarefas" class="tab active"></section>
+      <section id="noticias" class="tab"></section>
+    </main>
+  </div>
+
+  <!-- Templates -->
+  <template id="task-form-template">
+    <div class="card">
+      <h3>Criar / Editar Tarefa</h3>
+      <form class="task-form">
+        <input name="titulo" placeholder="Título" required />
+        <textarea name="descricao" placeholder="Descrição"></textarea>
+        <input name="data" type="date" />
+        <button type="submit">Salvar</button>
+      </form>
+    </div>
+  </template>
+
+  <template id="news-form-template">
+    <div class="card">
+      <h3>Criar / Editar Notícia</h3>
+      <form class="news-form">
+        <input name="titulo" placeholder="Título" required />
+        <textarea name="conteudo" placeholder="Conteúdo"></textarea>
+        <button type="submit">Salvar</button>
+      </form>
+    </div>
+  </template>
+
+  <script type="module">
+    import { auth, db } from './firebase-config.js';
+    import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+    import {
+      doc, getDoc, collection, query, where, getDocs,
+      addDoc, deleteDoc
+    } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+
+    const userInfoEl = document.getElementById('user-info');
+    const logoutBtn = document.getElementById('logout');
+
+    let currentUser = null;
+    let currentProfile = null;
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'index.html';
+        return;
+      }
+      currentUser = user;
+      try {
+        const userDocSnap = await getDoc(doc(db, 'users', user.uid));
+        if (!userDocSnap.exists()) {
+          alert('Perfil de usuário não encontrado.');
+          await signOut(auth);
+          window.location.href = 'index.html';
+          return;
+        }
+        currentProfile = userDocSnap.data();
+        userInfoEl.innerText = `${currentProfile.name} — ${currentProfile.turma} (${currentProfile.role})`;
+        await loadContentForTurma(currentProfile.turma);
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao carregar perfil: ' + err.message);
+        await signOut(auth);
+        window.location.href = 'index.html';
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.href = 'index.html';
+    });
+
+    document.querySelectorAll('.tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        document.querySelectorAll('.tab').forEach(s => s.classList.remove('active'));
+        document.getElementById(tab).classList.add('active');
+      });
+    });
+
+    async function loadContentForTurma(turmaCode) {
+      await loadTarefas(turmaCode);
+      await loadNoticias(turmaCode);
+    }
+
+    // ----------------------
+    // TAREFAS
+    // ----------------------
+    async function loadTarefas(turma) {
+      const container = document.getElementById('tarefas');
+      container.innerHTML = '';
+
+      if (currentProfile.role === 'leader' || currentProfile.role === 'vice') {
+        const tpl = document.getElementById('task-form-template').content.cloneNode(true);
+        const form = tpl.querySelector('.task-form');
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const tarefa = {
+            titulo: form.titulo.value.trim(),
+            descricao: form.descricao.value.trim(),
+            data: form.data.value || null,
+            turma,
+            criadoPor: currentUser.uid,
+            criadoEm: new Date().toISOString()
+          };
+          try {
+            await addDoc(collection(db, 'tarefas'), tarefa);
+            form.reset();
+            await loadTarefas(turma);
+          } catch (err) {
+            console.error(err);
+            alert('Erro ao criar tarefa: ' + err.message);
+          }
+        });
+        container.appendChild(tpl);
+      }
+
+      try {
+        const q = query(collection(db, 'tarefas'), where('turma', '==', turma));
+        const snap = await getDocs(q);
+        const list = document.createElement('div');
+        list.className = 'list';
+        snap.forEach(docSnap => {
+          const t = docSnap.data();
+          const card = document.createElement('div');
+          card.className = 'card';
+          const dataText = t.data ? `<div class="muted">Prazo: ${t.data}</div>` : '';
+          card.innerHTML = `<h3>${escapeHtml(t.titulo)}</h3><p>${escapeHtml(t.descricao || '')}</p>${dataText}`;
+          if (currentProfile.role === 'leader' || currentProfile.role === 'vice') {
+            const btnDel = document.createElement('button');
+            btnDel.innerText = 'Remover';
+            btnDel.addEventListener('click', async () => {
+              if (!confirm('Remover essa tarefa?')) return;
+              try {
+                await deleteDoc(doc(db, 'tarefas', docSnap.id));
+                await loadTarefas(turma);
+              } catch (err) {
+                console.error(err);
+                alert('Erro ao excluir tarefa: ' + err.message);
+              }
+            });
+            card.appendChild(btnDel);
+          }
+          list.appendChild(card);
+        });
+        container.appendChild(list);
+      } catch (err) {
+        console.error(err);
+        container.appendChild(createErrorCard('Erro ao carregar tarefas: ' + err.message));
+      }
+    }
+
+    // ----------------------
+    // NOTÍCIAS
+    // ----------------------
+    async function loadNoticias(turma) {
+      const container = document.getElementById('noticias');
+      container.innerHTML = '';
+
+      if (currentProfile.role === 'leader' || currentProfile.role === 'vice') {
+        const tpl = document.getElementById('news-form-template').content.cloneNode(true);
+        const form = tpl.querySelector('.news-form');
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const noticia = {
+            titulo: form.titulo.value.trim(),
+            conteudo: form.conteudo.value.trim(),
+            turma,
+            criadoPor: currentUser.uid,
+            criadoEm: new Date().toISOString()
+          };
+          try {
+            await addDoc(collection(db, 'noticias'), noticia);
+            form.reset();
+            await loadNoticias(turma);
+          } catch (err) {
+            console.error(err);
+            alert('Erro ao criar notícia: ' + err.message);
+          }
+        });
+        container.appendChild(tpl);
+      }
+
+      try {
+        const q = query(collection(db, 'noticias'), where('turma', '==', turma));
+        const snap = await getDocs(q);
+        const list = document.createElement('div');
+        list.className = 'list';
+        snap.forEach(docSnap => {
+          const n = docSnap.data();
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `<h3>${escapeHtml(n.titulo)}</h3><p>${escapeHtml(n.conteudo || '')}</p>`;
+          if (currentProfile.role === 'leader' || currentProfile.role === 'vice') {
+            const btn = document.createElement('button');
+            btn.innerText = 'Remover';
+            btn.addEventListener('click', async () => {
+              if (!confirm('Remover essa notícia?')) return;
+              try {
+                await deleteDoc(doc(db, 'noticias', docSnap.id));
+                await loadNoticias(turma);
+              } catch (err) {
+                console.error(err);
+                alert('Erro ao excluir notícia: ' + err.message);
+              }
+            });
+            card.appendChild(btn);
+          }
+          list.appendChild(card);
+        });
+        container.appendChild(list);
+      } catch (err) {
+        console.error(err);
+        container.appendChild(createErrorCard('Erro ao carregar notícias: ' + err.message));
+      }
+    }
+
+    // ----------------------
+    // Helpers
+    // ----------------------
+    function createErrorCard(msg) {
+      const c = document.createElement('div');
+      c.className = 'card';
+      c.innerHTML = `<strong>Erro</strong><div>${escapeHtml(msg)}</div>`;
+      return c;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

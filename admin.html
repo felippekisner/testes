@@ -1,0 +1,74 @@
+<!doctype html>
+<form id="create-class-form">
+<input id="class-name" placeholder="Nome da turma (ex: 3ºA)" required>
+<input id="class-code" placeholder="Código único (ex: 3A-2025)" required>
+<button type="submit">Criar Turma</button>
+</form>
+</div>
+
+
+<div class="card">
+<h2>Criar Usuário (manual)</h2>
+<p>Somente admin — senha administrativa necessária</p>
+<form id="create-user-form">
+<input id="admin-secret" placeholder="Senha admin" required>
+<input id="user-email" type="email" placeholder="Email do usuário" required>
+<input id="user-pass" type="password" placeholder="Senha" required>
+<input id="user-name" placeholder="Nome" required>
+<input id="user-turma" placeholder="Código da turma (ex: 3A-2025)" required>
+<select id="user-role">
+<option value="normal">Normal</option>
+<option value="leader">Líder</option>
+<option value="vice">Vice-líder</option>
+</select>
+<button type="submit">Criar Usuário</button>
+</form>
+</div>
+
+
+<p><small>Use essa página localmente. A senha admin padrão é: <strong>s3nh4adm1n</strong>. Altere no script se quiser.</small></p>
+</div>
+
+
+<script type="module">
+import { auth, db } from './firebase-config.js';
+import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+import { doc, setDoc, collection, addDoc, getDoc } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+
+
+const ADMIN_SECRET = 'Lippe@0707'; // altere aqui
+
+
+// criar turma
+document.getElementById('create-class-form').addEventListener('submit', async (e) => {
+e.preventDefault();
+const name = document.getElementById('class-name').value.trim();
+const code = document.getElementById('class-code').value.trim();
+if (!name || !code) return alert('Preencha nome e código');
+try {
+await setDoc(doc(db, 'turmas', code), { name, code, horarios: [] });
+alert('Turma criada: ' + code);
+} catch (err) { alert('Erro: ' + err.message); }
+});
+
+
+// criar usuário no Auth + Firestore
+document.getElementById('create-user-form').addEventListener('submit', async (e) => {
+e.preventDefault();
+const secret = document.getElementById('admin-secret').value;
+if (secret !== ADMIN_SECRET) return alert('Senha admin incorreta');
+const email = document.getElementById('user-email').value.trim();
+const pass = document.getElementById('user-pass').value;
+const name = document.getElementById('user-name').value.trim();
+const turma = document.getElementById('user-turma').value.trim();
+const role = document.getElementById('user-role').value;
+try {
+const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+const uid = userCred.user.uid;
+await setDoc(doc(db, 'users', uid), { name, email, turma, role });
+alert('Usuário criado com UID: ' + uid);
+} catch (err) { alert('Erro: ' + err.message); }
+});
+</script>
+</body>
+</html>

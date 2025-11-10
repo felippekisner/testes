@@ -1,267 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Organizador Escolar</title>
-    <link rel="shortcut icon" href="https://static.planejativo.com/wp-content/uploads/2023/05/capas-e-imagens3-1024x576.png">
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="Organizador FTK.png">
-<meta name="theme-color" content="#129b2d">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Organizador Escolar — Login</title>
+<link rel="stylesheet" href="style-mobile.css">
 </head>
 <body>
-    <script>
-        if (window.innerWidth <= 768) {
-          window.location.href = "mobile.html";
-        }
-      </script>
-      
-        <div class="sidebar" id="sidebar">
-            <div class="top">
-              <button id="menu-toggle">☰</button>
-            </div>
-            <button class="tab-btn"onclick="trocarAba('pgIncial')">
-              <span class="icon">🏠</span>
-              <span class="text">Início</span>
-            </button>
-            <button class="tab-btn" onclick="trocarAba('tarefas')">
-              <span class="icon">📝</span>
-              <span class="text">Tarefas</span>
-            </button>
-            <button class="tab-btn" onclick="trocarAba('horarios')">
-              <span class="icon">⏰</span>
-              <span class="text">Horários</span>
-            </button>
-            <button class="tab-btn" onclick="trocarAba('professores')">
-              <span class="icon">👨‍🏫</span>
-              <span class="text">Professores</span>
-            </button>
-            <button class="tab-btn" onclick="trocarAba('noticias')">
-              <span class="icon">📰</span>
-              <span class="text">Notícias</span>
-            </button>
-            
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdEBMilPMnIajdF9MeV7QLqe9UyW6QWDxK2zauj0beSQUhdBA/viewform?usp=sharing" target="_blank"><button class="tab-btn">
-                <span class="icon">🙋</span>
-                <span class="text">Sugestões</span>
-              </button></a>
-          </div>
-        
+<div class="container login-container">
+<h1>Entrar</h1>
+<form id="login-form">
+<input id="email" type="email" placeholder="Email" required>
+<input id="password" type="password" placeholder="Senha" required>
+<button type="submit">Entrar</button>
+</form>
+<p>Se você ainda não tem conta, peça ao administrador para criar uma.</p>
+</div>
 
-    
-    <div class="content">
-        <div id="pgIncial" class="tab-content active">
-            <h2>Home</h2><br>
-            <p>Seja muito bem-vindo(a) ao Organizador FTK! <br><br>
 
-                Desenvolvido especialmente para os alunos do Instituto Federal Catarinense – Campus Blumenau (IFC Blumenau), o Organizador FTK é sua nova ferramenta de apoio aos estudos. Aqui você encontrará tudo o que precisa para planejar seu dia a dia acadêmico com praticidade e eficiência:
-                
-                <br><br> Horários: visualize sua grade diária organizada por turnos (manhã e tarde), com detalhes dos intervalos e transições entre aulas. Nunca mais perca um compromisso!
-                <br><br>
-                Tarefas: cadastre, acompanhe e priorize todas as suas atividades por matéria e por dia. O Organizador FTK lembra você dos prazos para que seus trabalhos sejam sempre entregues no prazo.
-                <br><br>
-                Contato de Professores: tenha em mãos os dados de comunicação (e-mail, ramal ou redes institucionais) dos seus docentes. Dúvidas de última hora? Converse diretamente com quem pode te ajudar!
-                <br><br>
-                Notícias: fique por dentro das últimas atualizações do campus e de oportunidades acadêmicas (eventos, concursos, workshops). Informação sempre atualizada para que você não perca nenhuma chance de crescimento.
-                <br>
-                <br>
-                E muito mais: recursos extras, dicas de estudo, links úteis, feeds de bibliotecas digitais e formulários de avaliação para um feedback contínuo.
-                <br><br>
-                Este projeto é idealizado e mantido por Felippe Tesser Kisner, aluno do IFC Blumenau e entusiasta de tecnologia educacional, que entende as necessidades de quem vive a rotina do campus. A gestão e moderação do site ficam sob responsabilidade da líder de turma, Jamile, garantindo que todos os conteúdos e funcionalidades estejam alinhados às demandas da turma e do instituto.
-                <br><br>
-                Explore todas as funcionalidades e experimente uma nova forma de gerenciar seus compromissos acadêmicos. Seja mais produtivo, reduza o estresse e conquiste seus objetivos com o Organizador FTK.
-                <br><br>
-                Boa jornada de estudos e conte sempre conosco!
-                <br><br>
-                —
-                Felippe Tesser Kisner <br>
-                Criador do Organizador FTK</p>
-            
-        </div>
-        <div id="tarefas" class="tab-content">
-            <h2>Cadastrar Tarefa</h2>
-            <form id="formTarefas">
+<script type="module">
+import './firebase-config.js';
+import { auth } from './firebase-config.js';
+import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 
-                <label>Matéria:</label>
-                <select id="materiaTarefa">
-                    <option>Matemática</option>
-                    <option>Português</option>
-                    <option>Física</option>
-                    <option>Química</option>
-                    <option>Biologia</option>
-                    <option>História</option>
-                    <option>Geografia</option>
-                    <option>Inglês</option>
-                    <option>Filosofia</option>
-                    <option>Artes</option>
-                    <option>Educação Física</option>
-                    <option>Web Design</option>
-                    <option>Lógica de Programação</option>
-                    <option>Hardware</option>
-                    <option>Metodologia Científica</option>
-                    <option>Fundamentos da Informática</option>
-                </select>
 
-                <label>Tipo:</label>
-                <select id="tipoTarefa">
-                    <option>Trabalho</option>
-                    <option>Prova</option>
-                    <option>Tarefa</option>
-                </select>
-
-                <label>Data Inicio:</label>
-                <input type="date" id="dataITarefa" required>
-
-                <label>Data Final:</label>
-                <input type="date" id="dataFTarefa" >
-
-                <label>Descrição:</label>
-                <textarea id="descricaoTarefa" rows="4" required></textarea>
-
-                <button type="submit">Adicionar</button>
-            </form>
-
-            <h2>Tarefas da Semana</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data Inicio</th>
-                        <th>Data Final</th>
-                        <th>Dia</th>
-                        <th>Matéria</th>
-                        <th>Tipo</th>
-                        <th>Descrição</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="listaTarefas"></tbody>
-            </table>
-        </div>
-
-        <div id="horarios" class="tab-content">
-            <h2>Horário de Aulas</h2>
-            <table>
-                <tr>
-                    <th>Segunda</th>
-                    <th>Terça</th>
-                    <th>Quarta</th>
-                    <th>Quinta</th>
-                    <th>Sexta</th>
-                </tr>
-                <tr>
-                    <td><strong>Manhã</strong><br>Inglês<br>Inglês<br><strong>Lanche</strong><br>Geografia<br>Geografia<br>Biologia</td>
-                    <td><strong>Manhã</strong><br>Hardware<br>Hardware<br><strong>Lanche</strong><br>Filosofia<br>Lógica de Programação<br>Lógica de Programação</td>
-                    <td><strong>Manhã</strong><br>Química<br>Química<br><strong>Lanche</strong><br>Matemática<br>Matemática<br>Filosofia</td>
-                    <td><strong>Manhã</strong><br>História<br>Artes<br><strong>Lanche</strong><br>Artes<br>Lógica de Programação<br>Lógica de Programação</td>
-                    <td><strong>Manhã</strong><br>Português<br>Português<br><strong>Lanche</strong><br>Português<br>Educação Física<br>Educação Física</td>
-                </tr>
-                <tr>
-                    <td><strong>Tarde</strong><br>Biologia<br>Matemática<br>Matemática<br><strong>Lanche</strong><br>Web Design<br>Web Design</td>
-                    <td><strong>Tarde</strong><br><br><br><br><br><br></td>
-                    <td><strong>Tarde</strong><br>História<br>Hardware<br>Hardware<br><strong>Lanche</strong><br>Metodologia Científica<br>Metodologia Científica</td>
-                    <td><strong>Tarde</strong><br><br><br><br><br><br></td>
-                    <td><strong>Tarde</strong><br>Física<br>Física<br>Fundamentos da Informática<br><strong>Lanche</strong><br>Fundamentos da Informática<br></td>
-                </tr>
-            </table>
-        </div>
-
-        <div id="professores" class="tab-content">
-            <h2>Professores e Contato</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Matéria</th>
-                        <th>Professor</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Artes</td><td>Suzana Back</td><td>suzana.back@ifc.edu.br</td></tr>
-                    <tr><td>Biologia</td><td>Karlan Rau</td><td>karlan.rau@ifc.edu.br</td></tr>
-                    <tr><td>Educação Física</td><td>Daniel Minuzzi de Souza</td><td>daniel.souza@ifc.edu.br</td></tr>
-                    <tr><td>Filosofia</td><td>Adaltro Prochnov Nunes</td><td>adaltro.nunes@ifc.edu.br</td></tr>
-                    <tr><td>Física</td><td>Cinta Barbosa Passos</td><td>cinta.passos@ifc.edu.br</td></tr>
-                    <tr><td>Fundamentos da Informática</td><td>Adriano Pizzini</td><td>adriano.pizzini@ifc.edu.br</td></tr>
-                    <tr><td>Geografia</td><td>Cloves Alexandre de Castro</td><td>cloves.castro@ifc.edu.br</td></tr>
-                    <tr><td>Hardware</td><td>Heverton Mendes de Oliveira</td><td>heverton.oliveira@ifc.edu.br</td></tr>
-                    <tr><td>História</td><td>Anderson Negru Galcoswki</td><td>anderson.galcoswki@ifc.edu.br</td></tr>
-                    <tr><td>Inglês</td><td>Rita de Cássia da Silveira Cordeiro</td><td>rita.cordeiro@ifc.edu.br</td></tr>
-                    <tr><td>Português</td><td>Cleonice Marisa de Brito Nazedok</td><td>cleonice.nazedok@ifc.edu.br</td></tr>
-                    <tr><td>Lógica de Programação</td><td>Riad Mattos Nassife</td><td>riad.nassife@ifc.edu.br</td></tr>
-                    <tr><td>Matemática</td><td>Micheli Cristina Starosky Roloff</td><td>micheli.roloff@ifc.edu.br</td></tr>
-                    <tr><td>Metodologia Científica</td><td>Fani Luci Martendal Bernhardt</td><td>fani.bernhardt@ifc.edu.br</td></tr>
-                    <tr><td>Química</td><td>Carlos Eduardo Bencke</td><td>carlos.bencke@ifc.edu.br</td></tr>
-                    <tr><td>Web Design</td><td>Shirlei Magali Vendrami</td><td>shirlei.vendrami@ifc.edu.br</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div id="noticias" class="tab-content">
-            <h2>Adicionar Notícia</h2>
-            <form id="formNoticias">
-                <label>Data:</label>
-                <input type="date" id="dataNoticia" required>
-
-                <label>Matéria:</label>
-                <select id="materiaNoticia">
-                    <option>Mensagem do Instituto</option>
-                    <option>Matemática</option>
-                    <option>Português</option>
-                    <option>Física</option>
-                    <option>Química</option>
-                    <option>Biologia</option>
-                    <option>História</option>
-                    <option>Geografia</option>
-                    <option>Inglês</option>
-                    <option>Filosofia</option>
-                    <option>Artes</option>
-                    <option>Educação Física</option>
-                    <option>Web Design</option>
-                    <option>Lógica de Programação</option>
-                    <option>Hardware</option>
-                    <option>Metodologia Científica</option>
-                    <option>Fundamentos da Informática</option>
-                </select>
-
-                <label>Notícia:</label>
-                <textarea id="conteudoNoticia" rows="4" required></textarea>
-
-                 
-
-                <button type="submit">Adicionar</button>
-            </form>
-
-            <h2>Notícias</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Matéria</th>
-                        <th>Notícia</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="listaNoticias"></tbody>
-            </table>
-        </div>
-        
-    </div>
-
-    <script type="module" src="main.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(function(registration) {
-              console.log('Service Worker registrado com sucesso:', registration.scope);
-            })
-            .catch(function(error) {
-              console.log('Falha ao registrar Service Worker:', error);
-            });
-        }
-      </script>
-      
-
+const form = document.getElementById('login-form');
+form.addEventListener('submit', async (e) => {
+e.preventDefault();
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+try {
+await signInWithEmailAndPassword(auth, email, password);
+// redireciona para app principal
+window.location.href = 'main.html';
+} catch (err) {
+alert('Erro ao entrar: ' + err.message);
+}
+});
+</script>
 </body>
 </html>
